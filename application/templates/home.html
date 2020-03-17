@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body_content %}
+{{ title }}
+    <h1>Home Page</h1>
+    <p>Welcome to this web app!</p>
+    {% for postData in postData %}   
+        <div>
+            <h3>{{ postData.title }}</h3>
+
+        <p><b> - First name:</b>{{ postData.author.first_name }}</p>
+		<p><b> - Last name:</b>{{ postData.author.last_name }}</p>
+                   
+        <p>{{ postData.content }}</p>
+
+            
+        </div>
+    {% endfor %}
+
+{% endblock body_content %}
