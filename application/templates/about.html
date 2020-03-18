@@ -3,10 +3,37 @@
 {% block body_content %}
 {{ title }}
 
-<p>Hi login</p>
+<p>Hi </p>
 
 
 
 
 
 {% endblock body_content %}
+
+
+
+{% extends "layout.html" %}
+{% block body_content %}
+{{ title }}
+    <h1>Home Page</h1>
+    <p>Welcome to this web app!</p>
+    {% for outfitData in outfitData %}   
+        <div>
+            <h3>{{ outfitData.title }}</h3>
+
+        <p><b> - Description of top:</b>{{ outfitData.stylisttop.typeoftop }}</p>
+        <p><b> - Colour of top:</b>{{ outfitData.stylist.colouroftop }}</p>
+        
+        <p><b> - Description of bottom:</b>{{ outfitData.stylistbottom.typeofbottom }}</p>
+		<p><b> - Colour of bottom:</b>{{ outfitData.stylist.colourofbottom }}</p>
+                   
+        <p>{{ outfitData.content }}</p>
+
+            
+        </div>
+    {% endfor %}
+
+{% endblock body_content %}
+
+<!-- change to link to account to add, update clothes in the database, and displays -->

@@ -1,15 +1,14 @@
-from application import db, login_manager
-from flask_login import UserMixin
-from datetime import datetime
+from application import db
 
 
-class Posts(db.Model):
+class topid (db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False, unique=True)
-    content = db.Column(db.String(100), nullable=False, unique=True)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    typeoftop = db.Column(db.String(40), nullable=False)
+    colouroftop = db.Column(db.String(40), nullable=False)
+    solidorNot = db.Column(db.Boolean)
+
     
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    outfittop = db.relationship ('outfitid', backref='stylisttop', lazy=True)
 
   
     #__repr__ prints to the screen
@@ -20,14 +19,27 @@ class Posts(db.Model):
             'Title: ', self.title, '\r\n', self.content
             ])
 
-class Users(db.Model, UserMixin):
+
+class bottomid (db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    typeoftop = db.Column(db.String(40), nullable=False)
+    colouroftop = db.Column(db.String(40), nullable=False)
+
+    outfitbottom = db.relationship ('outfitid', backref='stylistbottom', lazy=True)
+
+
+
+class outfitid (db.Model):
+    outfittopid = db.Column(db.Integer, db.ForeignKey('top.id'), nullable=False)
+    outfitbottomid = db.Column(db.Integer, db.ForeignKey('bottom.id'), nullable=False)
+
+
+    id = db.Column(db.Integer, primary_key=True) #
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
-    email = db.Column(db.String(150), nullable=False, unique=True)
-    password = db.Column(db.String(500), nullable=False)
-    post = db.relationship('Posts', backref='author', lazy=True)
-
+    
+    
+    
     def __repr__(self):
         return ''.join(['UserID: ', str(self.id), '\r\n',
         'Email: ', self.email], '\r\n',
@@ -36,6 +48,3 @@ class Users(db.Model, UserMixin):
 
 
 
-@login_manager.user_loader
-def load_user(id):
-    return Users.query.get(int(id))
